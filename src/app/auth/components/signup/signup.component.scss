@@ -1,0 +1,20 @@
+@import "../../../../assets/variables/color";
+@import "../../../../assets/classes/common";
+
+.container-fluid {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+}
+
+
+span{
+    cursor: pointer;
+    font-weight:600;
+    color:$primary_color
+}

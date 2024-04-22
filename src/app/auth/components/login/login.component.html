@@ -1,0 +1,11 @@
+<div class="container-fluid">
+    <div class="form-container">
+        <h2 class="text-center">Sign In</h2>
+        <form class="form" [formGroup]="signinForm">
+          <input type="text" placeholder="Email" formControlName="email" class="input-control" required>
+          <input type="password" placeholder="Password" formControlName="password" class="input-control" required>
+          <button type="submit"  class="sdrx-btn" (click)="login()">Login</button>
+          <p class="text-center">Don't have an account? <span (click)="navigateToSignup()">Sign up</span></p>
+        </form>
+      </div>    
+</div>

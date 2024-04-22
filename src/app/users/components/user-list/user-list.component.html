@@ -1,0 +1,46 @@
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <span class="navbar-brand mb-0 h1">Softradix Test</span>
+    <span class="navbar-brand mb-0 h1"> <button type="submit" class="sdrx-btn" (click)="logOut()">Logout</button></span>
+  </div>
+</nav>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="text-end">
+      <button type="submit" class="sdrx-btn" (click)="addUser()">Add User</button>
+    </div>
+  </div>
+  <table class="table">
+    <thead>
+
+      <tr>
+        <th scope="col">Sr No.</th>
+        <th scope="col">Name </th>
+        <th scope="col">Email</th>
+        <th scope="col">Actions</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      @for(key of userlisting; track $index){
+      <tr>
+        <td scope="row">{{$index+1}}</td>
+        <td>{{key?.name}}</td>
+        <td>{{key?.email}}</td>
+        <td>
+          <mat-icon class="icon" style="cursor: pointer;" (click)="editDetail($index)">edit</mat-icon>
+          <mat-icon class="icon" style="cursor: pointer;" (click)="userAction($index, 'delete')">delete</mat-icon>
+          <mat-icon class="icon" style="cursor: pointer; color: {{ key.active ? 'green' : 'red' }}"
+          (click)="userAction($index, 'toggle')">
+            {{ key.active ? 'check_circle' : 'highlight_off' }}
+          </mat-icon>
+        </td>
+
+      </tr>
+      }
+
+
+    </tbody>
+  </table>
+</div>
