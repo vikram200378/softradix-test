@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators , AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '../../../shared/service/localstorage.service';
 import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss'
 })
@@ -36,9 +37,9 @@ export class SignupComponent {
       this.userDetailsArray = storedUsers;
     }
     this.signupForm = this.fb.group({
-      name: [''],
-      email: [''],
-      password: [''],
+      name: ['', [Validators.required, this.onlyAlphabetsValidator()]],
+      email: ['',[Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['']
     })
 
@@ -56,10 +57,18 @@ export class SignupComponent {
       }
     });
   }
+  onlyAlphabetsValidator(): any {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const valid = /^[a-zA-Z\s]*$/.test(control.value);
+      return valid ? null : { invalidName: true };
+    };
+  }
   public navigateToSignin() {
     this.router.navigateByUrl('/')
   }
   public handleRegistration() {
+
+    
     const password = this.signupForm.value.password
     const confirmPassword = this.signupForm.value.confirmPassword
     if (password != confirmPassword) {
@@ -68,7 +77,7 @@ export class SignupComponent {
     }
     if (this.signupForm.valid) {
       this.showError = ''
-
+      console.log( this.signupForm.value)
       this.route.url.subscribe((url: any) => {
         if (url.find((segment: any) => segment.path === 'add-user')) {
           this.heading = 'Add User';
@@ -92,7 +101,7 @@ export class SignupComponent {
         }
       });
     } else {
-      Swal.fire('Error', 'Form is not valid!', 'error')
+      // Swal.fire('Error', 'Form is not valid!', 'error')
     }
   }
 }
