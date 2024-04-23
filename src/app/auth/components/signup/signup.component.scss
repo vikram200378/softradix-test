@@ -18,3 +18,8 @@ span{
     font-weight:600;
     color:$primary_color
 }
+.error p {
+    color: red !important;
+    margin-top: -6px !important;
+    font-weight: 400;
+}
