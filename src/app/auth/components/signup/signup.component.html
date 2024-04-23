@@ -1,18 +1,34 @@
 <div class="container-fluid">
-    <div class="form-container">
-        <h2 class="text-center">{{heading}}</h2>
-        <form class="form" [formGroup]="signupForm">
-            <input type="text" placeholder="Name" class="input-control" formControlName="name" required>
-          <input type="text" placeholder="Email" class="input-control" formControlName="email" required>
-          <input type="password" placeholder="Password" class="input-control" formControlName="password" required>
-          <input type="password" placeholder="Confirm Password" class="input-control" formControlName="confirmPassword" required>
-          <span style="color:red;font-size: 12px;margin-top: -12px;
-          padding-bottom: 16px;
-          font-weight: normal;">{{showError}}</span>
-          <button type="submit"  class="sdrx-btn" (click)="handleRegistration()">{{heading == 'Sign Up'  ? 'Sign Up' : 'Add User' &&  heading == 'Edit User'?'Edit User':'Add User'}}</button>
-            @if(heading == 'Sign Up'){
-                <p class="text-center">Already have an account? <span (click)="navigateToSignin()">Sign in</span></p>
-            }
-        </form>
-      </div>    
+  <div class="form-container">
+    <h2 class="text-center">{{heading}}</h2>
+    <form class="form" [formGroup]="signupForm" (ngSubmit)="handleRegistration()">
+      <input type="text" placeholder="Name" class="input-control" formControlName="name">
+      <div *ngIf="signupForm.get('name')?.invalid && (signupForm.get('name')?.dirty || signupForm.get('name')?.touched)">
+        <p *ngIf="signupForm.get('name')?.hasError('required')">Name is required.</p>
+        <p *ngIf="signupForm.get('name')?.hasError('invalidName')">Name must contain only alphabetic characters.</p>
+      </div>
+
+      <input type="text" placeholder="Email" class="input-control" formControlName="email">
+      <div *ngIf="signupForm.get('email')?.invalid && (signupForm.get('email')?.dirty || signupForm.get('email')?.touched)">
+        <p *ngIf="signupForm.get('email')?.hasError('required')">Email is required.</p>
+        <p *ngIf="signupForm.get('email')?.hasError('email')">Invalid email format.</p>
+      </div>
+
+      <input type="password" placeholder="Password" class="input-control" formControlName="password">
+      <div *ngIf="signupForm.get('password')?.invalid && (signupForm.get('password')?.dirty || signupForm.get('password')?.touched)">
+        <p *ngIf="signupForm.get('password')?.hasError('required')">Password is required.</p>
+        <p *ngIf="signupForm.get('password')?.hasError('minlength')">Password must be at least 8 characters long.</p>
+      </div>
+
+      <input type="password" placeholder="Confirm Password" class="input-control" formControlName="confirmPassword">
+      
+      <span *ngIf="showError" style="color: red; font-size: 12px; margin-top: -12px; padding-bottom: 16px; font-weight: normal;">{{ showError }}</span>
+
+      <button type="submit" class="sdrx-btn">{{ heading }}</button>
+
+      <p class="text-center" *ngIf="heading === 'Sign Up'">
+        Already have an account? <span (click)="navigateToSignin()">Sign in</span>
+      </p>
+    </form>
+  </div>
 </div>
